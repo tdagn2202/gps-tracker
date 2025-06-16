@@ -1,12 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import HomeScreen from './screen/HomeScreen';
+import RealTimeScreen from './screen/RealTimeScreen';
+import NotificationScreen from './screen/NotificationScreen';
+import MyTabBars from './shared/BottomNavigation/BottomNavigation'; 
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        tabBar={(props) => <MyTabBars {...props} />} 
+        screenOptions={{ headerShown: false }}
+      >
+        <Tab.Screen name="Home" 
+          component={HomeScreen}
+          options={{headerShown:false}} 
+        />
+
+        <Tab.Screen 
+          name="RealTime" 
+          component={RealTimeScreen}
+          options={{headerShown:false}} 
+
+          />
+
+        <Tab.Screen 
+          name="Notification" 
+          component={NotificationScreen} 
+          options={{headerShown:false}} 
+
+          />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 

@@ -14,17 +14,17 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-   scroll: {
+  scroll: {
     flex: 1,
-    backgroundColor: '#fff', 
+    backgroundColor: "#fff",
   },
-  
+
   content: {
-    flexGrow: 1,  
+    flexGrow: 1,
     paddingHorizontal: 10,
     paddingVertical: 20,
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

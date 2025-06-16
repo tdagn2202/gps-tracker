@@ -11,9 +11,9 @@ import DynamicIcon from "../Icons/DynamicIcon.js";
 
 const ICON_MAP = {
   Home: { type: "Ionicons", name: "home-outline" },
-  RealTime: { type: "Ionicons", name: "cart-outline" },
-  Notification: { type: "Ionicons", name: "card-outline" },
-  Profile: { type: "Ionicons", name: "person-outline" },
+  RealTime: { type: "Feather", name: "clock" },
+  Notification: { type: "Feather", name: "bell" },
+  Report: { type: "Feather", name: "bar-chart" },
 };
 
 const MyTabBars = ({ state, descriptors, navigation }) => {

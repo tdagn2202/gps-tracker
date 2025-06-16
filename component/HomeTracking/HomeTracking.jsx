@@ -1,11 +1,12 @@
-import React from 'react'
-import { View } from 'react-native'
+
+import { View, Text } from 'react-native';
+import styles from './HomeTracking.style';
 
 const HomeTracking = () => {
   return (
-   <View style={styles.container}>
-
-   </View>
+    <View style={styles.container}>
+      <Text style={styles.text}>HomeTracking Screen</Text>
+    </View>
   )
 }
 

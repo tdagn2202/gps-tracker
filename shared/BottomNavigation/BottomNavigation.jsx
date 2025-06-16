@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Animated, Dimensions } from 'react-native';
-import DynamicIcon from '../Icons/DynamicIcon.js';
 import styles from '../BottomNavigation/BottomNavigation.style.jsx';
+import DynamicIcon from '../Icons/DynamicIcon.js';
 
 const ICON_MAP = {
   Home: { type: 'Ionicons', name: 'home-outline' },
-  Cart: { type: 'Ionicons', name: 'cart-outline' },
-  Payment: { type: 'Ionicons', name: 'card-outline' },
+  RealTime: { type: 'Ionicons', name: 'cart-outline' },
+  Notification: { type: 'Ionicons', name: 'card-outline' },
   Profile: { type: 'Ionicons', name: 'person-outline' },
 };
 

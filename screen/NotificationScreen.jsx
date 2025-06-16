@@ -1,14 +1,15 @@
 import { ScrollView, StyleSheet } from "react-native";
-import HomeTracking from "../component/HomeTracking/HomeTracking";
+import Notification from "../component/Notification/Notification";
 
-const HomeScreen = () => {
+const PaymentScreen = () => {
   return (
     <ScrollView
       style={styles.scroll}
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="handled"
     >
-      <HomeTracking />
+
+      <Notification/>
     </ScrollView>
   );
 };
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff', 
   },
   
-  content: {
+ content: {
     flexGrow: 1,  
     paddingHorizontal: 10,
     paddingVertical: 20,
@@ -28,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default PaymentScreen;

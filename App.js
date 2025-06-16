@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screen/HomeScreen';
 import RealTimeScreen from './screen/RealTimeScreen';
 import NotificationScreen from './screen/NotificationScreen';
+import ReportScreen from './screen/ReportScreen'
 import MyTabBars from './shared/BottomNavigation/BottomNavigation';
 
 const Tab = createBottomTabNavigator();
@@ -31,6 +32,13 @@ export default function App() {
         <Tab.Screen
           name="Notification"
           component={NotificationScreen}
+          options={{ headerShown: false }}
+
+        />
+
+        <Tab.Screen
+          name="Report"
+          component={ReportScreen}
           options={{ headerShown: false }}
 
         />

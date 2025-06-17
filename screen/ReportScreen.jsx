@@ -1,5 +1,7 @@
 import { ScrollView, StyleSheet } from "react-native";
-import Report from "../component/Report/Report";
+import SearchBar from "../component/Report/Search/Report";
+import GPSItem from "../component/Report/GPSDetail/GPSDetail";
+import chipIcon from '../assets/image/chipIcon.png';
 
 const ReportScreen = () => {
   return (
@@ -8,7 +10,9 @@ const ReportScreen = () => {
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="handled"
     >
-      <Report/>
+      <SearchBar placeholder="Search by GPS name..." />
+      <GPSItem name="GPS-01" status="ACTIVE" iconSource={chipIcon} />    
+      <GPSItem name="GPS-02" status="ACTIVE" iconSource={chipIcon} />    
     </ScrollView>
   );
 };
@@ -18,9 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-
   content: {
-    flexGrow: 1,
     paddingHorizontal: 10,
     paddingVertical: 20,
     justifyContent: "center",

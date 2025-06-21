@@ -26,7 +26,7 @@ const LocationHistoryItem = () => {
                         type="MaterialCommunityIcons" 
                         name="google-maps" 
                         size={15} 
-                        color="#222222" 
+                        color="#7e7e7e" 
                     />
                   <Text style={styles.mapText}>Google Maps</Text>
                 </TouchableOpacity>

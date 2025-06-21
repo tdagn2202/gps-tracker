@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
 
   historyButton: {
-    backgroundColor: "#e7f1ff",
+    backgroundColor: "#C7E3F9",
     borderRadius: 12,
     paddingHorizontal: 19,
     paddingVertical: 6,
@@ -78,13 +78,13 @@ const styles = StyleSheet.create({
 
   buttonText: {
     fontSize: 13,
-    color: "#007aff",
+    color: "#0255AF",
     fontFamily: fonts.HelveticaNeueBold,
   },
 
   mapButton: {
     flexDirection: "row",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#C7E3F9",
     borderRadius: 12,
     paddingHorizontal: 10,
     paddingVertical: 6,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   mapText: {
     fontSize: 13,
     fontFamily: fonts.HelveticaNeueMedium,
-    color: "#444",
+    color: "#7e7e7e",
   },
   container:{
     marginTop:16, 

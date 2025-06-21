@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 
 import DynamicIcon from './shared/Icons/DynamicIcon';
+import MyTabBars from './shared/BottomNavigation/BottomNavigation';
 import fonts from './constants/fonts';
 
 import HomeScreen from './screen/HomeScreen';
@@ -13,7 +14,9 @@ import RealTimeScreen from './screen/RealTimeScreen';
 import NotificationScreen from './screen/NotificationScreen';
 import ReportScreen from './screen/ReportScreen';
 import LastUpdatedTimeScreen from './screen/LastUpdatedTimeScreen';
-import MyTabBars from './shared/BottomNavigation/BottomNavigation';
+import AddNewDeviceScreen from './screen/AddNewDeviceScreen';
+import MapDetailScreen from './screen/MapDetailScreen';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -124,6 +127,21 @@ export default function App() {
           name="LastUpdatedTimeScreen"
           component={LastUpdatedTimeScreen}
           options={getHeaderOptions('Last Updated', 'goBack', {paddingLeft:16})}
+        />
+
+        <Stack.Screen
+          name="AddNewDeviceScreen"
+          component={AddNewDeviceScreen}
+          options={getHeaderOptions('Add New Device', 'goBack')}
+        />
+
+        <Stack.Screen
+          name="MapDetailScreen"
+          component={MapDetailScreen}
+          options={({ route, navigation }) => {
+            const title = route?.params?.name || 'Map Detail'; 
+            return createHeaderOptions(title, 'goBack')({ navigation }); 
+          }}
         />
 
       </Stack.Navigator>

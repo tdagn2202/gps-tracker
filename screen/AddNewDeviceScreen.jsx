@@ -1,17 +1,15 @@
 import { ScrollView, StyleSheet, View } from "react-native";
-import Greeting from "../component/HomeTracking/Greeting";
-import DeviceList from "../component/HomeTracking/Device/DeviceList";
+import AddNewDevice from "../component/AddNewDevice";
 
-const HomeScreen = () => {
+const AddNewDeviceScreen = () => {
   return (
     <ScrollView
       style={styles.scroll}
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="handled"
     >
-      <View style={styles.greetingWrapper}>
-        <Greeting />
-        <DeviceList/>
+      <View style={styles.addDeviceWrapper}>
+        <AddNewDevice />
       </View>
     </ScrollView>
   );
@@ -24,14 +22,11 @@ const styles = StyleSheet.create({
   },
   content: {
     flexGrow: 1,
+    justifyContent: "flex-end", 
     paddingHorizontal: 10,
-    paddingVertical: 20,
-    alignItems: "stretch",
+    paddingVertical: 50,
   },
-  greetingWrapper: {
-    marginBottom: 16, 
-    marginTop:25
-  },
+
 });
 
-export default HomeScreen;
+export default AddNewDeviceScreen;

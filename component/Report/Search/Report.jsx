@@ -1,4 +1,4 @@
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput} from 'react-native';
 import DynamicIcon from '../../../shared/Icons/DynamicIcon';
 import styles from './Report.style';
 

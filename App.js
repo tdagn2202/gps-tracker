@@ -10,12 +10,13 @@ import MyTabBars from './shared/BottomNavigation/BottomNavigation';
 import fonts from './constants/fonts';
 
 import HomeScreen from './screen/HomeScreen';
-import RealTimeScreen from './screen/RealTimeScreen';
+import LocationHistoryScreen from './screen/LocationHistoryScreen';
 import NotificationScreen from './screen/NotificationScreen';
 import ReportScreen from './screen/ReportScreen';
 import LastUpdatedTimeScreen from './screen/LastUpdatedTimeScreen';
 import AddNewDeviceScreen from './screen/AddNewDeviceScreen';
 import MapDetailScreen from './screen/MapDetailScreen';
+import SearchMapScreen from './screen/SearchMapScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -84,14 +85,14 @@ const TabNavigator = (getHeaderOptions) => () => (
       options={{ headerShown: false }}
     />
     <Tab.Screen
-      name="RealTime"
-      component={RealTimeScreen}
-      options={{ headerShown: false }}
+      name="History"
+      component={LocationHistoryScreen}
+      options={getHeaderOptions('History')}
     />
     <Tab.Screen
       name="Notification"
       component={NotificationScreen}
-      options={{ headerShown: false }}
+      options={getHeaderOptions('Notification')}
     />
     <Tab.Screen
       name="Report"
@@ -138,11 +139,65 @@ export default function App() {
         <Stack.Screen
           name="MapDetailScreen"
           component={MapDetailScreen}
-          options={({ route, navigation }) => {
-            const title = route?.params?.name || 'Map Detail'; 
-            return createHeaderOptions(title, 'goBack')({ navigation }); 
+          options={({ route, navigation }) => ({
+            headerShown: true,
+            headerTitle: () => (
+              <View style={{ paddingHorizontal: 16 }}>
+                <Text
+                  style={{
+                    color: '#7e7e7e',
+                    fontSize: 18,
+                    fontFamily: fonts.HelveticaNeueMedium,
+                  }}
+                >
+                  {route.params?.name || 'Map Detail'}
+                </Text>
+              </View>
+            ),
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#fff',
+              elevation: 0,
+              shadowOpacity: 0,
+              height: 90,
+              paddingTop: 20,
+            },
+            headerShadowVisible: false,
+            headerLeftContainerStyle: {
+              paddingLeft: 8,
+              paddingTop: 4,
+            },
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={{ marginLeft: 16 }}
+              >
+                <View style={styles.squareIcon}>
+                  <View style={styles.iconContainer}>
+                    <DynamicIcon
+                      type="MaterialIcons"
+                      name="keyboard-arrow-left"
+                      size={24}
+                      color="#7e7e7e"
+                    />
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ),
+          })}
+        />
+
+
+        <Stack.Screen
+          name="SearchMapScreen"
+          component={SearchMapScreen}
+          options={{
+            presentation: 'modal', 
+            headerShown: false,     
           }}
         />
+
+
 
       </Stack.Navigator>
     </NavigationContainer>

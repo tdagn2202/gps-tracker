@@ -67,6 +67,15 @@ const styles = StyleSheet.create({
     fontFamily:fonts.HelveticaNeueBold
 
   },
+
+  deviceName: {
+  fontSize: 14,
+  color: "#333",
+  fontFamily: fonts.HelveticaNeueMedium,
+  marginTop: 8,
+  marginBottom: 4,
+},
+
 });
 
 export default styles

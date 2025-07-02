@@ -7,7 +7,7 @@ const MapDetailScreen = () => {
     <View style={styles.container}>
       <Map />
       <View style={styles.addressOverlay}>
-        <Address />
+        <Address/>
       </View>
     </View>
   );

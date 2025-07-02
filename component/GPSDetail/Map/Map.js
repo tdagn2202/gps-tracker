@@ -10,6 +10,8 @@ import {
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import CustomMarker from './CustomMarker';
+import DynamicIcon from '../../../shared/Icons/DynamicIcon';
+import fonts from '../../../constants/fonts';
 
 const MapScreen = () => {
   const mapRef = useRef(null);
@@ -85,10 +87,12 @@ const MapScreen = () => {
         />
       )}
       </MapView>
-
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={focusToMyLocation}>
-          <Text style={styles.buttonText}>📍 Vị trí của tôi</Text>
+          <View style={styles.row}>
+            <DynamicIcon type="Feather" name="map-pin" size={13} color="#fff" />
+            <Text style={styles.buttonText}>My Location</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -114,23 +118,30 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 390,
     width: '100%',
     alignItems: 'center',
   },
 
   button: {
     backgroundColor: '#007AFF',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 15,
   },
 
   buttonText: {
     color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 12,
+    fontFamily:fonts.HelveticaNeueBold
   },
+
+  row:{
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    gap:5
+  }
 
 });
 

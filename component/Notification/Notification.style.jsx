@@ -16,32 +16,39 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     elevation: 2,
   },
+
   icon: {
-    width: 32,
-    height: 32,
+    width: 50,
+    height: 50,
     marginRight: 12,
     marginTop: 4,
   },
+
   textContainer: {
     flex: 1,
   },
+
   title: {
-    fontWeight: "bold",
     fontSize: 14,
     marginBottom: 2,
+    fontFamily:fonts.HelveticaNeueBold,
+    color:'#51a3fd'
   },
+
   message: {
     fontSize: 13,
-    color: "#333",
+    color: "#7e7e7e",
+    fontFamily:fonts.HelveticaNeueMedium
   },
-  bold: {
-    fontWeight: "bold",
-  },
+
+ 
   time: {
     fontSize: 12,
-    color: "#aaa",
+    color: "#51a3fd",
     marginLeft: 8,
+    fontFamily:fonts.HelveticaNeueMedium
   },
+
 });
 
 export default styles;

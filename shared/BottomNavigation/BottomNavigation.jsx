@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import  { useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import DynamicIcon from "../Icons/DynamicIcon.js";
 
 const ICON_MAP = {
   Home: { type: "Ionicons", name: "home-outline" },
-  RealTime: { type: "Feather", name: "clock" },
+  History: { type: "MaterialCommunityIcons", name: "history" },
   Notification: { type: "Feather", name: "bell" },
   Report: { type: "Feather", name: "bar-chart" },
 };
@@ -49,7 +49,7 @@ const MyTabBars = ({ state, descriptors, navigation }) => {
             }),
             width: highlightSize,
             height: highlightSize,
-            backgroundColor: "#f1f9f2",
+            backgroundColor: "#DBEAFE",
           }}
         />
 
@@ -59,7 +59,7 @@ const MyTabBars = ({ state, descriptors, navigation }) => {
             type: "Ionicons",
             name: "help-circle-outline",
           };
-          const color = isFocused ? "#68BD6C" : "#A9A9A9";
+          const color = isFocused ? "#51a3fd" : "#A9A9A9";
 
           const onPress = () => {
             const event = navigation.emit({

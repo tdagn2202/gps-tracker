@@ -1,13 +1,11 @@
 import styles from "./Notification.style";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image } from "react-native";
 
 const Notification = ({ title, message, time }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={{
-          uri: "https://static.vecteezy.com/system/resources/thumbnails/000/639/930/small_2x/chip.jpg",
-        }}
+        source={require('../../assets/image/chipIcon.png')}
         style={styles.icon}
       />
       <View style={styles.textContainer}>

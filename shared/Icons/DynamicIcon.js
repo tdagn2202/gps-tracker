@@ -6,7 +6,9 @@ import {
   Entypo, 
   AntDesign, 
   MaterialCommunityIcons,
-  Feather } from "@expo/vector-icons";
+  Feather,
+  EvilIcons
+ } from "@expo/vector-icons";
 
 
 const ICON_SETS = {
@@ -16,7 +18,8 @@ const ICON_SETS = {
   Entypo,
   AntDesign,
   Feather,
-  MaterialCommunityIcons
+  MaterialCommunityIcons,
+  EvilIcons
 };
 
 const DynamicIcon = ({ type = "Ionicons", name, size = 24, color = "#000" }) => {

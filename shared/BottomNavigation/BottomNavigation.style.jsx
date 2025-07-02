@@ -7,16 +7,15 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    shadowColor: "#000", // <== Add this
+    shadowColor: "#000", 
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 10,
-    // position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    overflow: "visible", // allow shadow to be drawn outside (important!)
+    overflow: "visible", 
     justifyContent: "center",
     alignItems: "center",
     underlayColor: "transparent",

@@ -10,7 +10,7 @@ const ReportScreen = () => {
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="handled"
     >
-      <SearchBar placeholder="Search by GPS name..." />
+      <SearchBar/>
       <GPSItem name="GPS-01" status="ACTIVE" iconSource={chipIcon} />    
       <GPSItem name="GPS-02" status="ACTIVE" iconSource={chipIcon} />    
     </ScrollView>
@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 10,
-    paddingVertical: 20,
     justifyContent: "center",
     alignItems: "center",
   },

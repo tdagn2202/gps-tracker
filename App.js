@@ -89,11 +89,7 @@ const TabNavigator = (getHeaderOptions) => () => (
       component={LocationHistoryScreen}
       options={getHeaderOptions('History')}
     />
-    <Tab.Screen
-      name="Notification"
-      component={NotificationScreen}
-      options={getHeaderOptions('Notification')}
-    />
+
     <Tab.Screen
       name="Report"
       component={ReportScreen}
@@ -134,6 +130,12 @@ export default function App() {
           name="AddNewDeviceScreen"
           component={AddNewDeviceScreen}
           options={getHeaderOptions('Add New Device', 'goBack')}
+        />
+
+        <Stack.Screen
+          name="NotificationScreen"
+          component={NotificationScreen}
+          options={getHeaderOptions('Notification', 'goBack')}
         />
 
         <Stack.Screen

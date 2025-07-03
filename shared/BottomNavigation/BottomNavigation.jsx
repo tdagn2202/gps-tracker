@@ -12,7 +12,6 @@ import DynamicIcon from "../Icons/DynamicIcon.js";
 const ICON_MAP = {
   Home: { type: "Ionicons", name: "home-outline" },
   History: { type: "MaterialCommunityIcons", name: "history" },
-  Notification: { type: "Feather", name: "bell" },
   Report: { type: "Feather", name: "bar-chart" },
 };
 

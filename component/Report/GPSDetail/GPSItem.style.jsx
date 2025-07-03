@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import fonts from "../../../constants/fonts";
 
 const styles = StyleSheet.create({
@@ -8,15 +8,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    elevation: 7,
-    shadowColor: "#999999",
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
     width: 320,
     height: 100,
-    paddingRight:16,
-    marginTop:16
+    paddingRight: 16,
+    marginTop: 16,
+
+    // Cross-platform shadow
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
 
   infoContainer: {
@@ -33,8 +41,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     color: "#222222",
-    fontFamily:fonts.HelveticaNeueBold
-
+    fontFamily: fonts.HelveticaNeueBold,
   },
 
   statusContainer: {
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
   statusText: {
     color: "#2c7ef5",
     fontSize: 12,
-    fontFamily:fonts.HelveticaNeueBold
+    fontFamily: fonts.HelveticaNeueBold,
   },
 });
 

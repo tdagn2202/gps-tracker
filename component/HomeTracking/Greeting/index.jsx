@@ -1,9 +1,15 @@
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, TouchableOpacity } from 'react-native';
 import DynamicIcon from '../../../shared/Icons/DynamicIcon';
 import styles from './Greeting.style';
-
+import { useNavigation } from '@react-navigation/native';
 
 const Greeting = () => {
+  const navigation = useNavigation();
+
+  const handleBellPress = () => {
+    navigation.navigate('NotificationScreen');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
@@ -13,12 +19,14 @@ const Greeting = () => {
         </View>
 
         <View style={styles.row}>
-          <DynamicIcon 
-            type="FontAwesome" 
-            name="bell-o" 
-            size={18} 
-            color="#222222" 
-          />
+          <TouchableOpacity onPress={handleBellPress} style={{ marginRight: 12 }}>
+            <DynamicIcon 
+              type="FontAwesome" 
+              name="bell-o" 
+              size={18} 
+              color="#222222" 
+            />
+          </TouchableOpacity>
 
           <Image
             source={require('../../../assets/image/avatar.png')}

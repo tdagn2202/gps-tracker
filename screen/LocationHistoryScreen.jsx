@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import SearchBar from "../component/LocationHistory/SearchBar/SearchBar";
 import FilterBar from "../component/LocationHistory/FilterBar/FilterBar";
@@ -8,6 +8,20 @@ import locationData from "../component/LocationHistory/LocationList/LocationHist
 const LocationHistoryScreen = () => {
   const [activityFilter, setActivityFilter] = useState("All Activities");
   const [searchText, setSearchText] = useState("");
+  const [dateFilter, setDateFilter] = useState(null);
+
+  const parseDate = (str) => {
+    const [dd, mm, yyyy] = str.split("/").map(Number);
+    return new Date(yyyy, mm - 1, dd);
+  };
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const dd = `${d.getDate()}`.padStart(2, "0");
+    const mm = `${d.getMonth() + 1}`.padStart(2, "0");
+    const yyyy = d.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  };
 
   const filteredData = locationData.filter((item) => {
     const matchesSearch =
@@ -17,7 +31,14 @@ const LocationHistoryScreen = () => {
     const matchesActivity =
       activityFilter === "All Activities" || item.type === activityFilter;
 
-    return matchesSearch && matchesActivity;
+    const dateObj = parseDate(item.date);
+
+    const matchesDate = !dateFilter ||
+      (
+        dateObj >= parseDate(formatDate(dateFilter.from)) &&
+        dateObj <= parseDate(formatDate(dateFilter.to))
+      );
+    return matchesSearch && matchesActivity && matchesDate;
   });
 
   return (
@@ -30,6 +51,8 @@ const LocationHistoryScreen = () => {
       <FilterBar
         activityFilter={activityFilter}
         setActivityFilter={setActivityFilter}
+        dateFilter={dateFilter}
+        setDateFilter={setDateFilter}
       />
       <LocationList data={filteredData} />
     </ScrollView>

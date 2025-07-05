@@ -1,22 +1,17 @@
 import { View, TouchableOpacity, Text } from "react-native";
-import DynamicIcon from "../../../shared/Icons/DynamicIcon";
 import styles from "./FilterBar.style";
 import FilterBarToggle from "./FilterBarToggle";
 import ActivityDropdown from "./ActivityDropdown";
+import DateDropdown from "./DateDropdown";
 
 
-const FilterBar = ({ activityFilter, setActivityFilter }) => {
+const FilterBar = ({ activityFilter, setActivityFilter, dateFilter, setDateFilter, }) => {
   return (
     <View style={styles.filterContainer}>
-      <TouchableOpacity style={styles.filterButton}>
-        <Text style={styles.filterText}>All Dates</Text>
-        <DynamicIcon
-          type="MaterialIcons"
-          name="keyboard-arrow-down"
-          size={18}
-          color="#51a3fd"
-        />
-      </TouchableOpacity>
+      <DateDropdown
+        selected={dateFilter}
+        onSelect={setDateFilter}
+      />
 
       <ActivityDropdown
         selected={activityFilter}

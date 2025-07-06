@@ -4,7 +4,8 @@ import fonts from "../../../constants/fonts";
 
 const styles=StyleSheet.create({
     filterContainer: {
-      flexDirection: "row",      
+      flexDirection: "row",
+      justifyContent: 'space-evenly',      
       paddingHorizontal: 16,
       paddingVertical: 16,
       gap: 10,                    

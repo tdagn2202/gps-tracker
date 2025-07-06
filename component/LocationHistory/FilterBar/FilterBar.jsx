@@ -5,7 +5,7 @@ import ActivityDropdown from "./ActivityDropdown";
 import DateDropdown from "./DateDropdown";
 
 
-const FilterBar = ({ activityFilter, setActivityFilter, dateFilter, setDateFilter, }) => {
+const FilterBar = ({ activityFilter, setActivityFilter, dateFilter, setDateFilter, viewMode, onToggleViewMode}) => {
   return (
     <View style={styles.filterContainer}>
       <DateDropdown
@@ -18,7 +18,10 @@ const FilterBar = ({ activityFilter, setActivityFilter, dateFilter, setDateFilte
         onSelect={setActivityFilter}
       />
 
-      <FilterBarToggle />
+      <FilterBarToggle
+        viewMode={viewMode}
+        onToggle={onToggleViewMode}
+      />
     </View>
   );
 };

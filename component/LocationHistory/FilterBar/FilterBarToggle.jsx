@@ -1,4 +1,5 @@
-import  { useRef, useState } from "react";
+// FilterBarToggle.jsx
+import React, { useRef, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -7,33 +8,32 @@ import {
 } from "react-native";
 import DynamicIcon from "../../../shared/Icons/DynamicIcon";
 
-const FilterBarToggle = () => {
-  const [active, setActive] = useState("menu");
-  const translateX = useRef(new Animated.Value(0)).current;
+const FilterBarToggle = ({ viewMode, onToggle }) => {
+  // Animated value: 0 = menu, 1 = map
+  const translateX = useRef(new Animated.Value(viewMode === "list" ? 0 : 1)).current;
 
-  const toggle = () => {
-    const toValue = active === "menu" ? 1 : 0;
+  // Khi viewMode thay đổi, chạy animation
+  useEffect(() => {
+    const toValue = viewMode === "list" ? 0 : 1;
     Animated.timing(translateX, {
       toValue,
       duration: 200,
-      useNativeDriver: false,
+      useNativeDriver: false, // translateX trên View không hỗ trợ native driver
     }).start();
-    setActive(active === "menu" ? "map" : "menu");
-  };
+  }, [viewMode, translateX]);
 
+  // Nội suy translateX thành px
   const circleTranslate = translateX.interpolate({
     inputRange: [0, 1],
-    outputRange: [4, 44], 
+    outputRange: [4, 44],
   });
 
   return (
-    <TouchableOpacity style={styles.toggleContainer} onPress={toggle}>
+    <TouchableOpacity style={styles.toggleContainer} onPress={onToggle}>
       <Animated.View
         style={[
           styles.activeIndicator,
-          {
-            transform: [{ translateX: circleTranslate }],
-          },
+          { transform: [{ translateX: circleTranslate }] },
         ]}
       />
       <View style={styles.iconWrapper}>
@@ -41,16 +41,15 @@ const FilterBarToggle = () => {
           type="Feather"
           name="menu"
           size={15}
-          color={active === "menu" ? "#51a3fd" : "#7e7e7e"}
+          color={viewMode === "list" ? "#51a3fd" : "#7e7e7e"}
         />
       </View>
-
       <View style={styles.iconWrapper}>
         <DynamicIcon
           type="Feather"
           name="map"
           size={15}
-          color={active === "map" ? "#51a3fd" : "#7e7e7e"}
+          color={viewMode === "map" ? "#51a3fd" : "#7e7e7e"}
         />
       </View>
     </TouchableOpacity>
@@ -78,8 +77,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#DBEAFE",
     zIndex: 0,
-    justifyContent:'center',
-    alignContent:''
   },
   iconWrapper: {
     flex: 1,

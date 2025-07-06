@@ -1,14 +1,31 @@
-import { use, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { useRef, useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Animated, Dimensions, View } from "react-native";
 import SearchBar from "../component/LocationHistory/SearchBar/SearchBar";
 import FilterBar from "../component/LocationHistory/FilterBar/FilterBar";
 import LocationList from "../component/LocationHistory/LocationList/LocationList";
 import locationData from "../component/LocationHistory/LocationList/LocationHistoryData";
+import MapScreen from "../component/GPSDetail/Map/Map";
 
 const LocationHistoryScreen = () => {
+  const SCREEN_WIDTH = Dimensions.get("window").width;
   const [activityFilter, setActivityFilter] = useState("All Activities");
   const [searchText, setSearchText] = useState("");
   const [dateFilter, setDateFilter] = useState(null);
+
+
+  const [viewMode, setViewMode] = useState("list");
+  const animatedX = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const toValue = viewMode === "list" ? 0 : -SCREEN_WIDTH;
+    Animated.timing(animatedX, {
+      toValue,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [viewMode]);
+
+
 
   const parseDate = (str) => {
     const [dd, mm, yyyy] = str.split("/").map(Number);
@@ -42,24 +59,61 @@ const LocationHistoryScreen = () => {
   });
 
   return (
-    <ScrollView
-      style={styles.scroll}
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="handled"
-    >
-      <SearchBar searchText={searchText} setSearchText={setSearchText} />
+    <View style={styles.outerContainer}>
+      <SearchBar
+        searchText={searchText}
+        setSearchText={setSearchText}
+      />
       <FilterBar
         activityFilter={activityFilter}
         setActivityFilter={setActivityFilter}
         dateFilter={dateFilter}
         setDateFilter={setDateFilter}
+        viewMode={viewMode}
+        onToggleViewMode={() =>
+          setViewMode(prev => (prev === "list" ? "map" : "list"))
+        }
       />
-      <LocationList data={filteredData} />
-    </ScrollView>
+
+      {/* Container cho list + map với hiệu ứng slide */}
+      <View style={styles.bodyContainer}>
+        <Animated.View
+          style={[
+            styles.animatedRow,
+            {
+              width: SCREEN_WIDTH * 2,
+              transform: [{ translateX: animatedX }],
+            },
+          ]}
+        >
+          {/* Column LIST */}
+          <View style={{ width: SCREEN_WIDTH, flex: 1 }}>
+            <LocationList data={filteredData} />
+          </View>
+
+          {/* Column MAP */}
+          <View style={{ width: SCREEN_WIDTH, flex: 1 }}>
+            <MapScreen />
+          </View>
+        </Animated.View>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  bodyContainer: {
+    flex: 1,
+    overflow: "hidden",
+  },
+  animatedRow: {
+    flex: 1,
+    flexDirection: "row",
+  },
   scroll: {
     flex: 1,
     backgroundColor: "#fff",

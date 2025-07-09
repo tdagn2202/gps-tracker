@@ -4,12 +4,14 @@ import fonts from "../../../constants/fonts";
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    justifyContent:'center',
+    alignItems:'center',
+    alignSelf:'center'
   },
 
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    gap:150
   },
 
   title: {

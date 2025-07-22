@@ -1,3 +1,7 @@
+
+
+// components/CustomMarker.js
+import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Marker, Callout } from 'react-native-maps';
 
@@ -20,11 +24,11 @@ export default function CustomMarker({ coordinate, title, image }) {
 
 const styles = StyleSheet.create({
   markerContainer: {
-    width: 30,              
+    width: 30,
     height: 30,
-    borderRadius: 25,        
+    borderRadius: 25,
     borderWidth: 3,
-    borderColor: '#007AFF',  
+    borderColor: '#007AFF',
     backgroundColor: '#fff',
     overflow: 'hidden',
     justifyContent: 'center',
@@ -46,4 +50,3 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
-

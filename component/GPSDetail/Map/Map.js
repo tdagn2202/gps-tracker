@@ -1,70 +1,75 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, ActivityIndicator, StyleSheet, Dimensions, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import CustomMarker from './CustomMarker';
-import DynamicIcon from '../../../shared/Icons/DynamicIcon';
+import getAddressFromCoords from '../../../utils/reverseGeocode';
 import fonts from '../../../constants/fonts';
+
+const DEFAULT_LOCATION = {
+  latitude: 10.02994,
+  longitude: 105.77074,
+  address: "Đại học Cần Thơ, Xuân Khánh, Ninh Kiều, Cần Thơ",
+};
 
 const MapScreen = () => {
   const mapRef = useRef(null);
-
-  const [region, setRegion] = useState(null);
-  const [myLocation, setMyLocation] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [address, setAddress] = useState('');
+  const [time, setTime] = useState('');
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Bạn cần cấp quyền vị trí để sử dụng chức năng này.');
-        return;
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        let latitude, longitude;
+
+        if (status === 'granted') {
+          const loc = await Location.getCurrentPositionAsync({});
+          latitude = loc.coords.latitude;
+          longitude = loc.coords.longitude;
+        } else {
+          latitude = DEFAULT_LOCATION.latitude;
+          longitude = DEFAULT_LOCATION.longitude;
+          setAddress(DEFAULT_LOCATION.address);
+        }
+
+        const finalLocation = { latitude, longitude };
+        setLocation(finalLocation);
+
+        if (!address) {
+          const addr = await getAddressFromCoords(latitude, longitude);
+          setAddress(addr);
+        }
+
+        const now = new Date();
+        const formattedTime = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} - ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
+        setTime(formattedTime);
+
+        mapRef.current?.animateToRegion({
+          latitude,
+          longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }, 1000);
+      } catch (error) {
+        console.error('Lỗi lấy vị trí:', error);
+        setAddress(DEFAULT_LOCATION.address);
+        setLocation({
+          latitude: DEFAULT_LOCATION.latitude,
+          longitude: DEFAULT_LOCATION.longitude,
+        });
+      } finally {
+        setLoading(false);
       }
-
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-
-      const newRegion = {
-        latitude,
-        longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      };
-
-      setMyLocation({ latitude, longitude });
-      setRegion(newRegion);
-      setLoading(false);
-
-
-      mapRef.current?.animateToRegion(newRegion, 1000);
     })();
   }, []);
 
-
-  const focusToMyLocation = () => {
-    if (myLocation) {
-      const newRegion = {
-        ...myLocation,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      };
-      mapRef.current?.animateToRegion(newRegion, 1000);
-    }
-  };
-
-  if (loading || !region) {
+  if (loading || !location) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={styles.centered}>
         <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={{ marginTop: 10 }}>Đang lấy vị trí...</Text>
+        <Text>Đang lấy vị trí...</Text>
       </View>
     );
   }
@@ -72,78 +77,80 @@ const MapScreen = () => {
   return (
     <View style={styles.container}>
       <MapView
-        style={styles.map}
-        region={region}
-        onRegionChangeComplete={setRegion}
         ref={mapRef}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
+        style={styles.map}
+        initialRegion={{
+          ...location,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+        showsUserLocation
       >
-      {myLocation && (
-        <CustomMarker
-          coordinate={myLocation}
-          title="Vị trí của tôi"
-          image={require('../../../assets/image/avatar.png')} 
-        />
-      )}
+        {/* Marker có hình người */}
+        <Marker coordinate={location} title="Vị trí của tôi">
+          <Image
+            source={require('../../../assets/image/avatar.png')}
+            style={styles.imageAvatar}
+            resizeMode="contain"
+          />
+        </Marker>
       </MapView>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={focusToMyLocation}>
-          <View style={styles.row}>
-            <DynamicIcon type="Feather" name="map-pin" size={13} color="#fff" />
-            <Text style={styles.buttonText}>My Location</Text>
-          </View>
-        </TouchableOpacity>
+
+      {/* Hộp địa chỉ và thời gian */}
+      <View style={styles.addressBox}>
+        <View style={styles.rowText}>
+          <Text style={styles.address}>📍 {address}</Text>
+          <Text style={styles.time}>Lần cập nhật cuối: {time}</Text>
+        </View>
       </View>
     </View>
   );
 };
 
+export default MapScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  loadingContainer: {
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-  map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-
-  },
-
-  buttonContainer: {
+  addressBox: {
     position: 'absolute',
-    bottom: 390,
-    width: '100%',
-    alignItems: 'center',
-  },
-
-  button: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    bottom: 40,
+    left: 20,
+    right: 20,
+    backgroundColor: '#f8f5f0',
+    padding: 15,
     borderRadius: 15,
   },
-
-  buttonText: {
-    color: '#fff',
+  rowText: {
+    flexDirection: 'column',
+  },
+  address: {
+    fontSize: 16,
+    marginBottom: 6,
+    fontFamily: fonts.HelveticaNeueBold,
+  },
+  time: {
     fontSize: 12,
-    fontFamily:fonts.HelveticaNeueBold
+    color: '#7e7e7e',
+    fontFamily: fonts.HelveticaNeueMedium,
   },
 
-  row:{
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
-    gap:5
+  imageAvatar:{
+    width: 30,
+    height: 30,
+    borderRadius: 24,           
+    borderWidth: 3,
+    borderColor: '#007AFF',       
+    backgroundColor: '#eee',
   }
-
 });
-
-
-export default MapScreen;

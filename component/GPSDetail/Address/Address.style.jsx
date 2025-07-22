@@ -8,11 +8,12 @@ const styles = StyleSheet.create({
 
   column: {
     flexDirection: 'column',
+    
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 100,
   },
 
   squareColumn: {

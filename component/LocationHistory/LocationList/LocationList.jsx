@@ -8,7 +8,12 @@ const LocationList = ({ data }) => {
   return (
     <ScrollView style={styles.locationList} showsVerticalScrollIndicator={false}>
       {safeData.length > 0 ? (
-        safeData.map((item) => <LocationItem key={item.id} item={item} />)
+        safeData.map((item) => (
+          <LocationItem 
+            key={`location-${item.locationId}`} 
+            item={item} 
+          />
+        ))
       ) : (
         <View style={styles.noResultsContainer}>
           <Text style={styles.noResultsText}>Không tìm thấy kết quả nào</Text>

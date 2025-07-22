@@ -1,18 +1,21 @@
 import { useRef, useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Animated, Dimensions, View } from "react-native";
+import { ScrollView, StyleSheet, Animated, Dimensions, View, Text, TouchableOpacity } from "react-native";
 import SearchBar from "../component/LocationHistory/SearchBar/SearchBar";
 import FilterBar from "../component/LocationHistory/FilterBar/FilterBar";
 import LocationList from "../component/LocationHistory/LocationList/LocationList";
 import locationData from "../component/LocationHistory/LocationList/LocationHistoryData";
 import MapScreen from "../component/GPSDetail/Map/Map";
+import DynamicIcon from "../shared/Icons/DynamicIcon";
 
-const LocationHistoryScreen = () => {
+const LocationHistoryScreen = ({ navigation, route }) => {
   const SCREEN_WIDTH = Dimensions.get("window").width;
   const [activityFilter, setActivityFilter] = useState("All Activities");
   const [searchText, setSearchText] = useState("");
   const [dateFilter, setDateFilter] = useState(null);
-
-
+  
+  // Lấy selectedSensorId từ route params
+  const { selectedSensorId } = route.params || {};
+  
   const [viewMode, setViewMode] = useState("list");
   const animatedX = useRef(new Animated.Value(0)).current;
 
@@ -24,8 +27,6 @@ const LocationHistoryScreen = () => {
       useNativeDriver: true,
     }).start();
   }, [viewMode]);
-
-
 
   const parseDate = (str) => {
     const [dd, mm, yyyy] = str.split("/").map(Number);
@@ -40,7 +41,14 @@ const LocationHistoryScreen = () => {
     return `${dd}/${mm}/${yyyy}`;
   };
 
-  const filteredData = locationData.filter((item) => {
+  // Lọc dữ liệu theo sensor đã chọn
+  const selectedSensorData = selectedSensorId 
+    ? locationData.find(sensor => sensor.sensorId === selectedSensorId)
+    : null;
+
+  const sensorLocations = selectedSensorData ? selectedSensorData.locations : [];
+
+  const filteredData = sensorLocations.filter((item) => {
     const matchesSearch =
       item.location.toLowerCase().includes(searchText.toLowerCase()) ||
       item.city.toLowerCase().includes(searchText.toLowerCase());
@@ -58,12 +66,47 @@ const LocationHistoryScreen = () => {
     return matchesSearch && matchesActivity && matchesDate;
   });
 
+  const handleBackToSensorSelection = () => {
+    navigation.goBack();
+  };
+
+  const renderSensorHeader = () => (
+    <View style={styles.sensorHeader}>
+      <TouchableOpacity 
+        style={styles.backButton} 
+        onPress={handleBackToSensorSelection}
+      >
+        <DynamicIcon 
+          type="EvilIcons" 
+          name="chevron-left" 
+          size={28} 
+          color="#007AFF" 
+        />
+        <Text style={styles.backText}>Location History</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  if (!selectedSensorId || !selectedSensorData) {
+    return (
+      <View style={[styles.outerContainer, styles.errorContainer]}>
+        <Text style={styles.errorText}>Không tìm thấy dữ liệu cảm biến</Text>
+        <TouchableOpacity style={styles.errorButton} onPress={handleBackToSensorSelection}>
+          <Text style={styles.errorButtonText}>Quay lại</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.outerContainer}>
+      {renderSensorHeader()}
+      
       <SearchBar
         searchText={searchText}
         setSearchText={setSearchText}
       />
+      
       <FilterBar
         activityFilter={activityFilter}
         setActivityFilter={setActivityFilter}
@@ -92,7 +135,7 @@ const LocationHistoryScreen = () => {
 
           {/* Column MAP */}
           <View style={{ width: SCREEN_WIDTH, flex: 1 }}>
-            <MapScreen />
+            <MapScreen data={filteredData} />
           </View>
         </Animated.View>
       </View>
@@ -105,6 +148,36 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+  sensorHeader: {
+    backgroundColor: '#fff',
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5EA',
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  backText: {
+    fontSize: 16,
+    color: '#007AFF',
+    marginLeft: 4,
+  },
+  sensorInfo: {
+    marginLeft: 4,
+  },
+  sensorTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 2,
+  },
+  sensorSubtitle: {
+    fontSize: 14,
+    color: '#8E8E93',
+  },
   bodyContainer: {
     flex: 1,
     overflow: "hidden",
@@ -113,15 +186,27 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  scroll: {
-    flex: 1,
-    backgroundColor: "#fff",
+  errorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
   },
-  content: {
-    flexGrow: 1,
-    paddingHorizontal: 5,
-    justifyContent: "flex-start",
-    alignItems: "center",
+  errorText: {
+    fontSize: 18,
+    color: '#FF3B30',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  errorButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  errorButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

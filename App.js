@@ -17,11 +17,11 @@ import LastUpdatedTimeScreen from './screen/LastUpdatedTimeScreen';
 import AddNewDeviceScreen from './screen/AddNewDeviceScreen';
 import MapDetailScreen from './screen/MapDetailScreen';
 import SearchMapScreen from './screen/SearchMapScreen';
-
+// Thêm import cho SensorSelectionScreen
+import SensorSelectionScreen from './screen/SensorSelectionScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
 
 const createHeaderOptions = (title, navigationTarget = 'Home') => ({ navigation }) => ({
   headerShown: true,
@@ -51,9 +51,9 @@ const createHeaderOptions = (title, navigationTarget = 'Home') => ({ navigation 
   },
   headerShadowVisible: false,
   headerLeftContainerStyle: {
-  paddingLeft: 8, 
-  paddingTop: 4,
-},
+    paddingLeft: 8, 
+    paddingTop: 4,
+  },
   headerLeft: () => (
     <TouchableOpacity
       onPress={() => navigationTarget === 'goBack' 
@@ -75,8 +75,6 @@ const createHeaderOptions = (title, navigationTarget = 'Home') => ({ navigation 
   ),
 });
 
-
-
 const TabNavigator = (getHeaderOptions) => () => (
   <Tab.Navigator tabBar={(props) => <MyTabBars {...props} />}>
     <Tab.Screen
@@ -86,19 +84,16 @@ const TabNavigator = (getHeaderOptions) => () => (
     />
     <Tab.Screen
       name="History"
-      component={LocationHistoryScreen}
-      options={getHeaderOptions('History')}
+      component={SensorSelectionScreen}
+      options={{ headerShown: false }}
     />
-
     <Tab.Screen
       name="Report"
       component={ReportScreen}
       options={getHeaderOptions('Report')}
     />
-
   </Tab.Navigator>
 );
-
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -120,6 +115,14 @@ export default function App() {
           component={TabNavigator(getHeaderOptions)}
           options={{ headerShown: false }}
         />
+
+        {/* LocationHistoryScreen sẽ được điều hướng từ SensorSelectionScreen */}
+        <Stack.Screen
+          name="LocationHistoryScreen"
+          component={LocationHistoryScreen}
+          options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="LastUpdatedTimeScreen"
           component={LastUpdatedTimeScreen}
@@ -189,7 +192,6 @@ export default function App() {
           })}
         />
 
-
         <Stack.Screen
           name="SearchMapScreen"
           component={SearchMapScreen}
@@ -198,9 +200,6 @@ export default function App() {
             headerShown: false,     
           }}
         />
-
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );

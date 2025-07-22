@@ -4,14 +4,15 @@ const locationData = [
     locations: [
       {
         locationId: 1,
-        location: 'Đại học Cần Thơ',
-        city: 'Xuân Khánh, Cần Thơ',
-        date: '08/07/2025',
+        location: 'Nhà riêng',
+        city: 'Ô Môn, Cần Thơ',
+        date: '08/06/2025',
         time: '21:42:30',
-        coordinates: '10.030, 105.768',
-        speed: '80 km/h',
-        type: 'Driving',
-        color: '#007AFF'
+        latitude: 10.12977,
+        longitude: 105.43009,
+        speed: '0 km/h',
+        type: 'Stationary',
+        color: '#8E8E93'
       },
       {
         locationId: 2,
@@ -19,21 +20,24 @@ const locationData = [
         city: 'Cái Răng, Cần Thơ',
         date: '15/06/2025',
         time: '21:42:30',
-        coordinates: '10.011, 105.767',
+        latitude: 10.01032,
+        longitude: 105.78375,
         speed: '10 km/h',
         type: 'Walking',
         color: '#34C759'
       },
+      
       {
         locationId: 3,
-        location: 'Nhà riêng',
-        city: 'Ô Môn, Cần Thơ',
-        date: '08/06/2025',
+        location: 'Đại học Cần Thơ',
+        city: 'Xuân Khánh, Cần Thơ',
+        date: '08/07/2025',
         time: '21:42:30',
-        coordinates: '10.130, 105.430',
-        speed: '0 km/h',
-        type: 'Stationary',
-        color: '#8E8E93'
+        latitude: 10.02993,
+        longitude: 105.76804,
+        speed: '80 km/h',
+        type: 'Driving',
+        color: '#007AFF'
       },
       {
         locationId: 4,
@@ -41,7 +45,8 @@ const locationData = [
         city: 'Cái Răng, Cần Thơ',
         date: '11/01/2025',
         time: '21:42:30',
-        coordinates: '10.014, 105.782',
+        latitude: 10.01394,
+        longitude: 105.78194,
         speed: '55 km/h',
         type: 'Driving',
         color: '#007AFF'
@@ -57,7 +62,8 @@ const locationData = [
         city: 'Cái Răng, Cần Thơ',
         date: '11/01/2025',
         time: '21:42:30',
-        coordinates: '10.014, 105.782',
+        latitude: 10.01394,
+        longitude: 105.78194,
         speed: '55 km/h',
         type: 'Driving',
         color: '#007AFF'
@@ -68,7 +74,8 @@ const locationData = [
         city: 'Ô Môn, Cần Thơ',
         date: '08/06/2025',
         time: '21:42:30',
-        coordinates: '10.130, 105.430',
+        latitude: 10.12977,
+        longitude: 105.43009,
         speed: '0 km/h',
         type: 'Stationary',
         color: '#8E8E93'
@@ -79,7 +86,8 @@ const locationData = [
         city: 'Cái Răng, Cần Thơ',
         date: '15/06/2025',
         time: '21:42:30',
-        coordinates: '10.011, 105.767',
+        latitude: 10.01032,
+        longitude: 105.78375,
         speed: '10 km/h',
         type: 'Walking',
         color: '#34C759'
@@ -90,7 +98,8 @@ const locationData = [
         city: 'Xuân Khánh, Cần Thơ',
         date: '08/07/2025',
         time: '21:42:30',
-        coordinates: '10.030, 105.768',
+        latitude: 10.02993,
+        longitude: 105.76804,
         speed: '80 km/h',
         type: 'Driving',
         color: '#007AFF'

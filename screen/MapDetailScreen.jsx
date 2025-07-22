@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import Map from '../component/GPSDetail/Map/Map';
 import Address from '../component/GPSDetail/Address';
-import fakeLocationInfo from '../component/GPSDetail/Map/FakeLocationInfoData'; // Cập nhật path đúng
+import fakeLocationInfo from '../component/GPSDetail/Map/FakeLocationInfoData'; 
 
 const MapDetailScreen = () => {
   return (

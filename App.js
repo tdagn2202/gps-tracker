@@ -17,7 +17,7 @@ import LastUpdatedTimeScreen from './screen/LastUpdatedTimeScreen';
 import AddNewDeviceScreen from './screen/AddNewDeviceScreen';
 import MapDetailScreen from './screen/MapDetailScreen';
 import SearchMapScreen from './screen/SearchMapScreen';
-// Thêm import cho SensorSelectionScreen
+
 import SensorSelectionScreen from './screen/SensorSelectionScreen';
 
 const Tab = createBottomTabNavigator();
@@ -82,11 +82,56 @@ const TabNavigator = (getHeaderOptions) => () => (
       component={HomeScreen}
       options={{ headerShown: false }}
     />
-    <Tab.Screen
+
+    <Stack.Screen
       name="History"
       component={SensorSelectionScreen}
-      options={{ headerShown: false }}
+      options={({ navigation }) => ({
+        headerShown: true,
+        headerTitle: () => (
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{
+              fontSize: 18,
+              color: '#7e7e7e',
+              fontFamily: fonts.HelveticaNeueMedium,
+            }}>
+              Choose sensor
+            </Text>
+            <Text style={{
+              fontSize: 14,
+              color: '#2e2e2e',
+              fontFamily: fonts.HelveticaNeueMedium,
+            }}>
+              Choose sensor to view location history
+            </Text>
+          </View>
+        ),
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#fff',
+          elevation: 0,
+          shadowOpacity: 0,
+          height: 90,
+          paddingTop: 20,
+        },
+        headerShadowVisible: false,
+        headerLeftContainerStyle: {
+          paddingLeft: 8,
+          paddingTop: 4,
+        },
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 16 }}>
+            <DynamicIcon
+              type="MaterialIcons"
+              name="keyboard-arrow-left"
+              size={24}
+              color="#7e7e7e"
+            />
+          </TouchableOpacity>
+        ),
+      })}
     />
+
     <Tab.Screen
       name="Report"
       component={ReportScreen}
@@ -116,11 +161,10 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-        {/* LocationHistoryScreen sẽ được điều hướng từ SensorSelectionScreen */}
         <Stack.Screen
           name="LocationHistoryScreen"
           component={LocationHistoryScreen}
-          options={{ headerShown: false }}
+          options={getHeaderOptions('Location History', 'goBack')}
         />
 
         <Stack.Screen
@@ -140,6 +184,8 @@ export default function App() {
           component={NotificationScreen}
           options={getHeaderOptions('Notification', 'goBack')}
         />
+
+
 
         <Stack.Screen
           name="MapDetailScreen"

@@ -10,6 +10,7 @@ import {
     Platform,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import fonts from "../../../constants/fonts";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -253,7 +254,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     buttonText: {
-        color: "#007AFF",
+        color: "#51a3fd",
+        fontFamily:fonts.HelveticaNeueMedium,
+        fontSize:14
     },
     overlay: {
         position: "absolute",

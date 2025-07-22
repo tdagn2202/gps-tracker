@@ -7,8 +7,6 @@ const LocationHistoryItem = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.textTitle}>Location History</Text>
-
         {locationHistoryData.map((item) => (
           <View style={styles.card} key={item.id}>
             <Text style={styles.time}>{item.time}</Text>

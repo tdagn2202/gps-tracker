@@ -21,7 +21,7 @@ const SearchBar = ({ searchText, setSearchText }) => {
 
       <View style={{ flex: 1 }}>
         {showCustomPlaceholder && (
-          <Text style={styles.customPlaceholder}>SSearch by GPS name...</Text>
+          <Text style={styles.customPlaceholder}>Search by GPS name...</Text>
         )}
         <TextInput
           style={[styles.searchInput, showCustomPlaceholder && { color: "transparent" }]}

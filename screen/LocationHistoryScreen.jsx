@@ -5,7 +5,7 @@ import FilterBar from "../component/LocationHistory/FilterBar/FilterBar";
 import LocationList from "../component/LocationHistory/LocationList/LocationList";
 import locationData from "../component/LocationHistory/LocationList/LocationHistoryData";
 import MapScreen from "../component/GPSDetail/Map/Map";
-import DynamicIcon from "../shared/Icons/DynamicIcon";
+import fonts from "../constants/fonts";
 
 const LocationHistoryScreen = ({ navigation, route }) => {
   const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -13,7 +13,6 @@ const LocationHistoryScreen = ({ navigation, route }) => {
   const [searchText, setSearchText] = useState("");
   const [dateFilter, setDateFilter] = useState(null);
   
-  // Lấy selectedSensorId từ route params
   const { selectedSensorId } = route.params || {};
   
   const [viewMode, setViewMode] = useState("list");
@@ -41,7 +40,6 @@ const LocationHistoryScreen = ({ navigation, route }) => {
     return `${dd}/${mm}/${yyyy}`;
   };
 
-  // Lọc dữ liệu theo sensor đã chọn
   const selectedSensorData = selectedSensorId 
     ? locationData.find(sensor => sensor.sensorId === selectedSensorId)
     : null;
@@ -70,22 +68,6 @@ const LocationHistoryScreen = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const renderSensorHeader = () => (
-    <View style={styles.sensorHeader}>
-      <TouchableOpacity 
-        style={styles.backButton} 
-        onPress={handleBackToSensorSelection}
-      >
-        <DynamicIcon 
-          type="EvilIcons" 
-          name="chevron-left" 
-          size={28} 
-          color="#007AFF" 
-        />
-        <Text style={styles.backText}>Location History</Text>
-      </TouchableOpacity>
-    </View>
-  );
 
   if (!selectedSensorId || !selectedSensorData) {
     return (
@@ -100,7 +82,6 @@ const LocationHistoryScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.outerContainer}>
-      {renderSensorHeader()}
       
       <SearchBar
         searchText={searchText}
@@ -170,8 +151,8 @@ const styles = StyleSheet.create({
   },
   sensorTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#000',
+    fontFamily:fonts.HelveticaNeueBold,
+    color: '#222222',
     marginBottom: 2,
   },
   sensorSubtitle: {
@@ -206,7 +187,7 @@ const styles = StyleSheet.create({
   errorButtonText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily:fonts.HelveticaNeueBold
   },
 });
 

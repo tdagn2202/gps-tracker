@@ -12,7 +12,7 @@ locationItem: {
   borderLeftColor: "#007AFF",
   width: 320,            
   alignSelf: "center",       
-  shadowColor: "#000",
+  shadowColor: "#2e2e2e",
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.1,
   shadowRadius: 4,

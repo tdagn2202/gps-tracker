@@ -75,7 +75,6 @@ const LocationHistoryScreen = () => {
         }
       />
 
-      {/* Container cho list + map với hiệu ứng slide */}
       <View style={styles.bodyContainer}>
         <Animated.View
           style={[

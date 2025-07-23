@@ -1,0 +1,51 @@
+
+import axios from 'axios';
+import reverseGeocode from '../utils/reverseGeocode';
+
+// const HISTORY_API_URL = 'http://10.2.13.56:3001/history';
+const HISTORY_API_URL = 'http://192.168.2.8:3001/history';
+
+const fetchHistoryFromApi = async () => {
+  try {
+    const response = await axios.get(HISTORY_API_URL);
+    const data = response.data;
+
+
+    if (!Array.isArray(data)) {
+      console.warn('API history trả về không phải mảng:', data);
+      return [];
+    }
+
+
+    const historyWithAddress = await Promise.all(
+      data.map(async item => {
+        const { lat, lng, receivedAt } = item;
+        let address = 'Không xác định';
+
+        if (lat != null && lng != null) {
+          try {
+
+            const result = await reverseGeocode(lat, lng);
+            if (result) address = result;
+          } catch (err) {
+            console.error(`Lỗi reverseGeocode tại [${lat}, ${lng}]:`, err);
+          }
+        }
+
+        return {
+          latitude: lat,
+          longitude: lng,
+          receivedAt,
+          address,
+        };
+      })
+    );
+
+    return historyWithAddress;
+  } catch (err) {
+    console.error('Lỗi gọi History API:', err);
+    return [];
+  }
+};
+
+export default fetchHistoryFromApi;

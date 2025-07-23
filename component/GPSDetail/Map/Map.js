@@ -86,7 +86,6 @@ const MapScreen = () => {
         }}
         showsUserLocation
       >
-        {/* Marker có hình người */}
         <Marker coordinate={location} title="Vị trí của tôi">
           <Image
             source={require('../../../assets/image/avatar.png')}
@@ -96,7 +95,6 @@ const MapScreen = () => {
         </Marker>
       </MapView>
 
-      {/* Hộp địa chỉ và thời gian */}
       <View style={styles.addressBox}>
         <View style={styles.rowText}>
           <Text style={styles.address}>📍 {address}</Text>
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
   },
   addressBox: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 60,
     left: 20,
     right: 20,
     backgroundColor: '#f8f5f0',

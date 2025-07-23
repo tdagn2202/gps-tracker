@@ -34,7 +34,7 @@ const LocationItem = ({ item }) => (
             color="black" 
         />
         </Text>
-        <Text style={styles.detailText}>{item.coordinates}</Text>
+        <Text style={styles.detailText}>{item.latitude}, {item.longitude}</Text>
       </View>
     </View>
 

@@ -5,6 +5,7 @@ import FilterBar from "../component/LocationHistory/FilterBar/FilterBar";
 import LocationList from "../component/LocationHistory/LocationList/LocationList";
 import locationData from "../component/LocationHistory/LocationList/LocationHistoryData";
 import MapScreen from "../component/GPSDetail/Map/Map";
+import MapWithHistory from "../component/GPSDetail/Map/MapWithHistory";
 import fonts from "../constants/fonts";
 
 const LocationHistoryScreen = ({ navigation, route }) => {
@@ -116,7 +117,7 @@ const LocationHistoryScreen = ({ navigation, route }) => {
 
           {/* Column MAP */}
           <View style={{ width: SCREEN_WIDTH, flex: 1 }}>
-            <MapScreen data={filteredData} />
+            <MapWithHistory data={filteredData} />
           </View>
         </Animated.View>
       </View>

@@ -15,9 +15,9 @@ const Address = ({ deviceName, addressInfo }) => {
     <View style={styles.container}>
       <Text style={styles.deviceName}>{deviceName}</Text>
 
-      <View style={styles.column}>
+      {/* <View style={styles.column}>
         <View style={styles.row}>
-          {/* Compass */}
+    
           <View style={styles.squareColumn}>
             <View style={styles.squareIconCompass}>
               <DynamicIcon type="Entypo" name="compass" size={18} color="#B0CB94" />
@@ -26,7 +26,7 @@ const Address = ({ deviceName, addressInfo }) => {
             <Text style={styles.compassText}>từ bạn</Text>
           </View>
 
-          {/* Wifi */}
+ 
           <View style={styles.squareColumn}>
             <View style={styles.squareIconWifi}>
               <DynamicIcon type="Feather" name="wifi" size={18} color="#D3B270" />
@@ -35,7 +35,7 @@ const Address = ({ deviceName, addressInfo }) => {
             <Text style={styles.compassText}>đã chạy</Text>
           </View>
 
-          {/* Speed */}
+
           <View style={styles.squareColumn}>
             <View style={styles.squareIconSpeed}>
               <DynamicIcon type="MaterialIcons" name="keyboard-double-arrow-right" size={18} color="#7A6FBE" />
@@ -44,7 +44,7 @@ const Address = ({ deviceName, addressInfo }) => {
             <Text style={styles.compassText}>vận tốc</Text>
           </View>
         </View>
-      </View>
+      </View> */}
 
       {/* Address box */}
       {/* <View style={styles.rectangleAddress}>

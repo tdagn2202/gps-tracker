@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const devices = [
   { id: '1', name: 'GPS-01', status: 'ACTIVE' },
-  { id: '2', name: 'GPS-02', status: 'ACTIVE' },
+  // { id: '2', name: 'GPS-02', status: 'ACTIVE' },
 ];
 
 const DeviceList = () => {

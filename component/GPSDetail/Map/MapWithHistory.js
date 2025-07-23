@@ -7,6 +7,10 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  Modal,
+  TouchableOpacity,
+  Animated,
+  Easing,
 } from "react-native";
 import MapView, { Marker, Polyline, Circle } from "react-native-maps";
 import * as Location from "expo-location";
@@ -31,6 +35,16 @@ const MapWithHistory = () => {
   const [time, setTime] = useState(""); // Thời gian cập nhật
   const [loading, setLoading] = useState(true); // Trạng thái loading
   const [error, setError] = useState(null);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const slideAnim = useRef(new Animated.Value(300)).current;
+
+  const handleMarkerPress = ({ latitude, longitude }, address, title) => {
+    setSelectedMarker({
+      coordinate: { latitude, longitude },
+      address,
+      title,
+    });
+  };
 
   const getCurrentLocation = async () => {
     try {
@@ -101,7 +115,6 @@ const MapWithHistory = () => {
     }
   };
 
-  // useEffect chính để khởi tạo component
   useEffect(() => {
     const initializeMap = async () => {
       try {
@@ -116,10 +129,11 @@ const MapWithHistory = () => {
               .filter(
                 (point) => point.latitude != null && point.longitude != null
               )
-              .map((point, index) => ({
-                id: `${point.receivedAt}-${index}`,
+              .map((point) => ({
+                id: `${point.receivedAt}-${point.latitude}-${point.longitude}`,
                 latitude: point.latitude,
                 longitude: point.longitude,
+                receivedAt: point.receivedAt,
               }));
           }
         } catch (err) {
@@ -135,11 +149,34 @@ const MapWithHistory = () => {
             id: loc.locationId.toString(),
             latitude: loc.latitude,
             longitude: loc.longitude,
+            receivedAt: loc.timestamp,
           }));
         }
-        setHistoryLocations(history);
 
-        const allPoints = [currentLoc, ...historyLocations];
+        const historyWithAddress = await Promise.all(
+          history.map(async (point) => {
+            let addr = "Không xác định";
+            try {
+              addr = await getAddressFromCoords(
+                point.latitude,
+                point.longitude
+              );
+            } catch (e) {
+              console.error(
+                `Lỗi getAddressFromCoords tại [${point.latitude}, ${point.longitude}]:`,
+                e
+              );
+            }
+            return {
+              ...point,
+              address: addr,
+            };
+          })
+        );
+
+        setHistoryLocations(historyWithAddress);
+
+        const allPoints = [currentLoc, ...historyWithAddress];
         await fetchRoute(allPoints);
       } catch (error) {
         console.error("Lỗi khởi tạo bản đồ:", error);
@@ -150,9 +187,21 @@ const MapWithHistory = () => {
     };
 
     initializeMap();
-  }, [historyLocations]);
+  }, []);
 
-  // Render loading state
+  useEffect(() => {
+    if (selectedMarker) {
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 300,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }).start();
+    } else {
+      slideAnim.setValue(300);
+    }
+  }, [selectedMarker]);
+
   if (loading || !currentLocation) {
     return (
       <View style={styles.centered}>
@@ -165,7 +214,7 @@ const MapWithHistory = () => {
     return (
       <View style={styles.centered}>
         <Text style={styles.errorText}>{error}</Text>
-        {/* Bạn có thể thêm nút reload nếu cần */}
+        {/*có thể thêm nút reload nếu cần */}
       </View>
     );
   }
@@ -183,7 +232,17 @@ const MapWithHistory = () => {
         showsUserLocation
       >
         {/* Marker vị trí hiện tại */}
-        <Marker coordinate={currentLocation} title="Vị trí hiện tại">
+        <Marker
+          coordinate={currentLocation}
+          title="Vị trí hiện tại"
+          onPress={() =>
+            handleMarkerPress(
+              currentLocation,
+              currentAddress,
+              "Vị trí hiện tại"
+            )
+          }
+        >
           <Image
             source={require("../../../assets/image/avatar.png")}
             style={styles.imageAvatar}
@@ -192,19 +251,27 @@ const MapWithHistory = () => {
         </Marker>
 
         {historyLocations.map((loc, index) => {
+          const coordinate = {
+            latitude: loc.latitude,
+            longitude: loc.longitude,
+          };
+          const address = loc.address;
           const isFirst = index === 0;
           const isLast = index === historyLocations.length - 1;
+          const title = isFirst
+            ? "Điểm bắt đầu"
+            : isLast
+            ? "Điểm kết thúc"
+            : address;
 
           // Điểm bắt đầu & kết thúc
           if (isFirst || isLast) {
             return (
               <Marker
                 key={loc.id}
-                coordinate={{
-                  latitude: loc.latitude,
-                  longitude: loc.longitude,
-                }}
-                title={isFirst ? "Điểm bắt đầu" : "Điểm kết thúc"}
+                coordinate={coordinate}
+                title={title}
+                onPress={() => handleMarkerPress(coordinate, address, title)}
               />
             );
           }
@@ -213,8 +280,9 @@ const MapWithHistory = () => {
           return (
             <Marker
               key={loc.id}
-              coordinate={{ latitude: loc.latitude, longitude: loc.longitude }}
+              coordinate={coordinate}
               pinColor="#8E8E93"
+              onPress={() => handleMarkerPress(coordinate, address, title)}
             />
           );
         })}
@@ -226,12 +294,33 @@ const MapWithHistory = () => {
           />
         )}
       </MapView>
-      <View style={styles.addressBox}>
-        <View style={styles.rowText}>
-          <Text style={styles.address}>📍 {currentAddress}</Text>
-          <Text style={styles.time}>Lần cập nhật cuối: {time}</Text>
+      <Modal
+        visible={selectedMarker != null}
+        transparent
+        animationType="none" // bỏ slide mặc định, ta tự animate
+        onRequestClose={() => setSelectedMarker(null)}
+      >
+        <View style={styles.modalOverlay}>
+          <Animated.View
+            style={[styles.infoBox, { transform: [{ translateY: slideAnim }] }]}
+          >
+            <Text style={styles.infoTitle}>{selectedMarker?.title}</Text>
+            <Text style={styles.infoText}>
+              Địa chỉ: {selectedMarker?.address}
+            </Text>
+            <Text style={styles.infoText}>
+              Tọa độ: {selectedMarker?.coordinate.latitude.toFixed(6)},{" "}
+              {selectedMarker?.coordinate.longitude.toFixed(6)}
+            </Text>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setSelectedMarker(null)}
+            >
+              <Text style={styles.closeButtonText}>Đóng</Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
-      </View>
+      </Modal>
     </View>
   );
 };
@@ -285,5 +374,80 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#007AFF",
     backgroundColor: "#eee",
+  },
+  // Overlay mờ nền
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  // Hộp thông tin
+  infoBox: {
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  infoText: {
+    fontSize: 14,
+    marginBottom: 6,
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+    marginTop: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+    backgroundColor: "#007AFF",
+  },
+  closeButtonText: {
+    color: "#ffffff",
+    fontSize: 14,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  // Hộp thông tin (container)
+  infoBox: {
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    // Đảm bảo full width
+    width: "100%",
+  },
+  // Tiêu đề
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginBottom: 12,
+  },
+  // Text địa chỉ, tọa độ
+  infoText: {
+    fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 8,
+  },
+  // Nút đóng container
+  closeButton: {
+    alignSelf: "flex-end",
+    marginTop: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: "#007AFF",
+  },
+  // Text nút đóng
+  closeButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#ffffff",
   },
 });

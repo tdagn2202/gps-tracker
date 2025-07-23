@@ -1,7 +1,8 @@
+//npm install -g json-server
 import axios from 'axios';
 import reverseGeocode from '../utils/reverseGeocode';
 
-const HISTORY_API_URL = 'https://ct295h.tdang2202.id.vn/api/history';
+const HISTORY_API_URL = 'http://10.2.13.56:3001/history';
 
 const fetchHistoryFromApi = async () => {
   try {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const GEOCODING_API_URL = 'https://api.opencagedata.com/geocode/v1/json';
-const API_KEY = '10d9bd707b524aa394840934ad3c1422'; 
+const API_KEY = '476ed313138f4799b22cb746efccf0a0';  
 
 const reverseGeocode = async (latitude, longitude) => {
   try {
@@ -18,8 +18,7 @@ const reverseGeocode = async (latitude, longitude) => {
     if (results.length > 0) {
       const { components, formatted } = results[0];
       
-      // Ưu tiên tên đường
-      const road = components.road || components.neighbourhood || components.suburb || components.village || 'Hẻm chưa có tên';
+      const road = components.road || components.neighborhood || components.suburb || components.village || 'Hẻm chưa có tên';
       const ward = components.city_district || components.town || components.county || '';
       const city = components.city || components.state || '';
       const country = components.country || '';

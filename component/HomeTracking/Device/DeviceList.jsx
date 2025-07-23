@@ -24,7 +24,7 @@ const DeviceList = () => {
       <View style={styles.header}>
         <Text style={styles.title}>Device List</Text>
         <TouchableOpacity onPress={handleAddNew}>
-          <Text style={styles.addText}>Add New</Text>
+          {/* <Text style={styles.addText}>Add New</Text> */}
         </TouchableOpacity>
       </View>
 

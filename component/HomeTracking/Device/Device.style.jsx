@@ -10,14 +10,18 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    flexDirection: "row",
-    gap:150
+    flexDirection: 'row',
+    justifyContent: 'flex-start', 
+    alignItems: 'flex-start', 
   },
 
+
   title: {
+    flex: 1, 
     fontSize: 18,
     color: "#222222",
     fontFamily: fonts.HelveticaNeueBold,
+    textAlign: 'left'
   },
 
   addText: {

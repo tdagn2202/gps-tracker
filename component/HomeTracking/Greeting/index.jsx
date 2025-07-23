@@ -19,14 +19,14 @@ const Greeting = () => {
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity onPress={handleBellPress} style={{ marginRight: 12 }}>
+          {/* <TouchableOpacity onPress={handleBellPress} style={{ marginRight: 12 }}>
             <DynamicIcon 
               type="FontAwesome" 
               name="bell-o" 
               size={18} 
               color="#222222" 
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <Image
             source={require('../../../assets/image/avatar.png')}

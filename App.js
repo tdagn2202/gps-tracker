@@ -132,11 +132,11 @@ const TabNavigator = (getHeaderOptions) => () => (
       })}
     />
 
-    <Tab.Screen
+    {/* <Tab.Screen
       name="Report"
       component={ReportScreen}
       options={getHeaderOptions('Report')}
-    />
+    /> */}
   </Tab.Navigator>
 );
 
@@ -179,11 +179,11 @@ export default function App() {
           options={getHeaderOptions('Add New Device', 'goBack')}
         />
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="NotificationScreen"
           component={NotificationScreen}
           options={getHeaderOptions('Notification', 'goBack')}
-        />
+        /> */}
 
 
 
